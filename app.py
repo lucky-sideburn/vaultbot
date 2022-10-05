@@ -105,7 +105,7 @@ def echo(update: Update, context: CallbackContext) -> None:
                     #update.message.reply_text(payload["data"]["ciphertext"])
                     update.message.reply_text(f"""
 This is an encrypted message generated with vault_bot https://t.me/vlt_bo\n
-The recipient can decrypt the message sending this message to vault_bot:\n\n
+Send the following message to vault_bot to decrypt:\n\n
 d:{key}:{payload["data"]["ciphertext"]}
                     """)
 
