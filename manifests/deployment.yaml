@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vaultbot
+  labels:
+    app: vaultbot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vaultbot
+  template:
+    metadata:
+      labels:
+        app: vaultbot
+    spec:
+      containers:
+      - name: vaultbot
+        image: docker.io/luckysideburn/vaultbot:v1.0.0
+        env:
+          - name: VAULT_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: vaultbot
+                key: vault_token
+          - name: VAULT_HOST
+            valueFrom:
+              secretKeyRef:
+                name: vaultbot
+                key: vault_host
+          - name: TELEGRAM_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: vaultbot
+                key: telegram_token
