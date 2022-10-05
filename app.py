@@ -62,6 +62,7 @@ def echo(update: Update, context: CallbackContext) -> None:
         logger.info(f"[Encrypt] Starting request to Vault")
 
         key = update.message.text.split(':', 2)[1]
+
         logger.info(f"[Encrypt] Checking if the key ({key}) is a correct format")
 
         if re.match(r"[a-z0-9]*$", key):
@@ -80,25 +81,32 @@ def echo(update: Update, context: CallbackContext) -> None:
             logger.info(f"[Encrypt] Key creation result: {r.text}")
 
             message = re.match(r"^e:(.*):(.*)", update.message.text)[2]
+            if len(message) < 1:
+                logger.info(f"[Encrypt] Full message received: {message}")
+                message_bytes = message.encode('UTF8')
+                base64_bytes = base64.b64encode(message_bytes)
+                base64_message = base64_bytes.decode('UTF8')
+                logger.info(f"[Encrypt] base64_message {base64_message}")
 
-            logger.info(f"[Encrypt] Full message received: {message}")
-            message_bytes = message.encode('UTF8')
-            base64_bytes = base64.b64encode(message_bytes)
-            base64_message = base64_bytes.decode('UTF8')
-            logger.info(f"[Encrypt] base64_message {base64_message}")
+                myobj = {"plaintext": base64_message}
+                logger.info(myobj)
+                r = requests.Request
+                try:
+                    r = requests.post(f"{api_host}/v1/transit/encrypt/{key}", json=myobj, verify=False, headers=headers, allow_redirects=True) 
+                except HTTPError as http_err:
+                    logger.info(f'Encrypt] HTTP error occurred: {http_err}')
+                except Exception as err:
+                    logger.info(f'Encrypt] Other error occurred: {err}')
 
-            myobj = {"plaintext": base64_message}
-            logger.info(myobj)
-            r = requests.Request
-            try:
-                r = requests.post(f"{api_host}/v1/transit/encrypt/{key}", json=myobj, verify=False, headers=headers, allow_redirects=True) 
-            except HTTPError as http_err:
-                logger.info(f'Encrypt] HTTP error occurred: {http_err}')
-            except Exception as err:
-                logger.info(f'Encrypt] Other error occurred: {err}')
-
-            payload = r.json()
-            update.message.reply_text(payload["data"]["ciphertext"])
+                payload = r.json()
+                update.message.reply_text(payload["data"]["ciphertext"])
+            else:
+                update.message.reply_text("""
+                Message not valid! 
+                Usage:
+                For Encrypt a messagge c:<your_key>:<your_message>
+                For Decrypt a messagge d:<your_key>:<your_message>
+                """)
         else:
             update.message.reply_text("Key name is not valid. Use only numbers or lowercase letters")
 
@@ -138,7 +146,7 @@ def echo(update: Update, context: CallbackContext) -> None:
     else:
         update.message.reply_text("""
         Usage:
-        For encrypt a messagge c:<your_key>:<your_message>
+        For Encrypt a messagge c:<your_key>:<your_message>
         For Decrypt a messagge d:<your_key>:<your_message>
         """)
 
