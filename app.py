@@ -135,7 +135,12 @@ def echo(update: Update, context: CallbackContext) -> None:
         message_bytes = base64.b64decode(base64_bytes)
         message = message_bytes.decode('UTF8')
         update.message.reply_text(message)
-
+    else:
+        update.message.reply_text("""
+        Usage:
+        For encrypt a messagge c:<your_key>:<your message>
+        For Decrypt a messagge d:<your_key>:<your_message>
+        """)
 
 def main() -> None:
     """Start the bot."""
