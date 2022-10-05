@@ -104,8 +104,8 @@ def echo(update: Update, context: CallbackContext) -> None:
                     payload = r.json()
                     #update.message.reply_text(payload["data"]["ciphertext"])
                     update.message.reply_text(f"""
-Your message has been encrypted.\n
-The recipient can decrypt the message using this bot with:\n\n
+This is an encrypted message generated with vault_bot.\n
+The recipient can decrypt the message using vault_bot (t.me/vlt_bot) with:\n\n
 d:{key}:{payload["data"]["ciphertext"]}
                     """)
 
