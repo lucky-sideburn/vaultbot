@@ -48,7 +48,7 @@ def help_command(update: Update, context: CallbackContext) -> None:
     update.message.reply_text("""
     This is a Telegram Bot that use Encryption as a Service (provided by the Transit Secrets Engine of Hashicorp Vault)\n
     Usage:
-    For encrypt a messagge c:<your_key>:<your message>
+    For encrypt a messagge e:<your_key>:<your message>
     For Decrypt a messagge d:<your_key>:<your_message>
     """)
 
@@ -107,7 +107,7 @@ def echo(update: Update, context: CallbackContext) -> None:
                     update.message.reply_text("""
                     Message not valid! 
                     Usage:
-                    For Encrypt a messagge c:<your_key>:<your_message>
+                    For Encrypt a messagge e:<your_key>:<your_message>
                     For Decrypt a messagge d:<your_key>:<your_message>
                     """)
             else:
@@ -161,13 +161,13 @@ def echo(update: Update, context: CallbackContext) -> None:
         else:
             update.message.reply_text("""
             Usage:
-            For Encrypt a messagge c:<your_key>:<your_message>
+            For Encrypt a messagge e:<your_key>:<your_message>
             For Decrypt a messagge d:<your_key>:<your_message>
             """)
     else:
         update.message.reply_text("""
         Usage:
-        For Encrypt a messagge c:<your_key>:<your_message>
+        For Encrypt a messagge e:<your_key>:<your_message>
         For Decrypt a messagge d:<your_key>:<your_message>
         """)
 
