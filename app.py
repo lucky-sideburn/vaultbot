@@ -102,7 +102,13 @@ def echo(update: Update, context: CallbackContext) -> None:
                         logger.info(f'Encrypt] Other error occurred: {err}')
 
                     payload = r.json()
-                    update.message.reply_text(payload["data"]["ciphertext"])
+                    #update.message.reply_text(payload["data"]["ciphertext"])
+                    update.message.reply_text(f"""
+Your message has been encrypted.\n
+The recipient can decrypt the message using this bot with:\n\n
+d:{key}:{payload["data"]["ciphertext"]}
+                    """)
+
                 else:
                     update.message.reply_text("""
                     Message not valid! 
@@ -132,17 +138,14 @@ def echo(update: Update, context: CallbackContext) -> None:
                 r = requests.post(f"{api_host}/v1/transit/decrypt/{key}", json=myobj, verify=False, headers=headers, allow_redirects=True) 
             except HTTPError as http_err:
                 logger.info(f'[Decrypt] HTTP error occurred: {http_err}')
-                update.message.reply_text("Error in decrypting message...")
 
             except Exception as err:
                 logger.info(f'[Decrypt] Other error occurred: {err}')
-                update.message.reply_text("Error in decrypting message...")
-
 
             logger.info(f"[Decrypt] Response status code: {r.status_code}")
             logger.info(f"[Decrypt] Response payload: {r.text}")
 
-            if r.status_code != "200":
+            if r.status_code != 200:
                 update.message.reply_text("Error in decrypting message...")
 
             payload = r.json()
