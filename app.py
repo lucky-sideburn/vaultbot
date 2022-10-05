@@ -81,7 +81,7 @@ def echo(update: Update, context: CallbackContext) -> None:
             logger.info(f"[Encrypt] Key creation result: {r.text}")
 
             message = re.match(r"^e:(.*):(.*)", update.message.text)[2]
-            if len(message) < 1:
+            if len(message) > 1:
                 logger.info(f"[Encrypt] Full message received: {message}")
                 message_bytes = message.encode('UTF8')
                 base64_bytes = base64.b64encode(message_bytes)
