@@ -142,7 +142,10 @@ def echo(update: Update, context: CallbackContext) -> None:
         base64_bytes = base64_message.encode('UTF8')
         message_bytes = base64.b64decode(base64_bytes)
         message = message_bytes.decode('UTF8')
-        update.message.reply_text(message)
+        if len(message) > 0:
+            update.message.reply_text(message)
+        else:
+            update.message.reply_text("Error in decrypting message...")
     else:
         update.message.reply_text("""
         Usage:
