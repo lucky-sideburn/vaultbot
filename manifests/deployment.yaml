@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: vaultbot
-        image: docker.io/luckysideburn/vaultbot:v1.0.5
+        image: docker.io/luckysideburn/vaultbot:v1.0.6
         env:
           - name: VAULT_TOKEN
             valueFrom:
