@@ -138,7 +138,7 @@ def echo(update: Update, context: CallbackContext) -> None:
     else:
         update.message.reply_text("""
         Usage:
-        For encrypt a messagge c:<your_key>:<your message>
+        For encrypt a messagge c:<your_key>:<your_message>
         For Decrypt a messagge d:<your_key>:<your_message>
         """)
 
